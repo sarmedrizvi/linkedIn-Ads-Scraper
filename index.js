@@ -1,6 +1,7 @@
 const express = require("express");
 const puppeteer = require("puppeteer");
 const cors = require("cors");
+const http = require("http");
 
 const app = express();
 app.use(cors());
@@ -158,6 +159,10 @@ async function scrapeAdDetailPage(browser, adUrl) {
 }
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+// 👇 Manually create and configure server timeout
+const server = http.createServer(app);
+server.setTimeout(5 * 60 * 1000); // 5 minutes
+
+server.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
